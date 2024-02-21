@@ -130,7 +130,7 @@ def do_sign_act(browser: requests.Session, payload: dict) -> None:
         print("[{}]".format(timestamp), end=" ")
 
         if (res.json()["isOK"] == "Y"):
-            print("簽到成功" if payload["id_no"] == "" else "簽退成功")
+            print("簽到成功" if payload["idNo"] == "" else "簽退成功")
         else:
             print("簽到退失敗，後端回應錯誤: {}".format(res.json()))
     except:
