@@ -5,7 +5,7 @@ from lxml import etree
 from datetime import datetime
 from dotenv import load_dotenv
 from constants import NCU_PORTAL_URL, HUMAN_SYS_URL, MENU_SELECT, \
-    LOGIN_PAGE_XPATH, SIGNIN_PAGE_XPATH, BROWSER_USER_AGENT
+    LOGIN_PAGE_XPATH, SIGNIN_PAGE_XPATH, BROWSER_USER_AGENT, PORTAL_COOKIE_DOMAIN
 
 
 def init_env() -> None:
@@ -31,7 +31,8 @@ def init_env() -> None:
 
 def init_browser() -> requests.Session:
     browser = requests.Session()
-    browser.cookies.set("portal", os.environ.get("PORTAL_TOKEN"))
+    browser.cookies.set("portal", os.environ.get(
+        "PORTAL_TOKEN"), domain=PORTAL_COOKIE_DOMAIN)
     browser.headers.update({"User-Agent": BROWSER_USER_AGENT})
 
     return browser
