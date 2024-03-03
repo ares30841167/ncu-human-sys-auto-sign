@@ -27,7 +27,7 @@
 
 30天有效登入狀態 Cookie 須由使用者自行先到 Portal 頁面使用記住我功能進行登入操作後，自行複製登入後的 Portal Cookie 狀態至 .env 內進行設定。
 
-使用步驟如下，
+目前排程執行以及其他部分尚未完成，若要執行簽到流程測試，則使用步驟如下，
 
 1. 安裝專案所需的 python 相依套件
 
@@ -37,17 +37,17 @@
 
 2. 使用者自行透過 Portal 頁面記住我功能進行登入，並複製 Portal Cookie 內容
 3. 使用者自行進入到人事系統目標簽到頁面，並複製網址上的頁面 ID (ParttimeUsuallyId)
-4. 在程式資料夾下創建 .env 檔案，可參考 .env.example 進行設定，將上述複製的內容設置於 .env 內
+4. 在 ncu_hsys 資料夾下創建 .env 檔案，可參考 .env.example 進行設定，將上述複製的內容設置於 .env 內
 
     ```text
     PORTAL_TOKEN="{Portal Cookie}"
     PARTTIME_USUALLY_ID={ParttimeUsuallyId}
     ```
 
-5. 執行程式進行簽到退
+5. 在**專案根目錄**執行 ncu_hsys.sign_bot 可進行簽到退流程測試
 
     ```python
-    python main.py
+    python -m "ncu_hsys.sign_bot"
     ```
 
 ## 致謝
