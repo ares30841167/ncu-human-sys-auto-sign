@@ -18,16 +18,17 @@
 目前程式開發的進度為，
 
 - [x] 模擬簽到退請求並進行簽到退作業
-- [ ] 排程執行
+- [X] 排程執行
 - [ ] 簽到結果推播通知 (例如 Discord 或 Slack)
+- [ ] Web Server版 - 供多人同時使用
 
 ## 使用說明
 
 此工具主要使用透過 Portal 記住我功能獲取的30天有效登入狀態 Cookie，模擬使用者登入 Portal 並從選單點選人事系統選項登入人事系統，最後對指定人事系統簽到頁面進行簽到退之動作。
 
-30天有效登入狀態 Cookie 須由使用者自行先到 Portal 頁面使用記住我功能進行登入操作後，自行複製登入後的 Portal Cookie 狀態至 .env 內進行設定。
+30天有效登入狀態 Cookie 須由使用者自行先到 Portal 頁面使用記住我功能進行登入操作後，自行複製登入後的 Portal Cookie 狀態。
 
-目前排程執行以及其他部分尚未完成，若要執行簽到流程測試，則使用步驟如下，
+目前簽到結果推播通知以及其他部分尚未完成，執行簽到流程測試，使用步驟如下，
 
 1. 安裝專案所需的 python 相依套件
 
@@ -49,6 +50,44 @@
     ```python
     python -m "ncu_hsys.sign_bot"
     ```
+
+若要執行排程自動簽到，則使用步驟如下，
+
+1. 安裝專案所需的 python 相依套件
+
+    ```python
+    pip install -r requirements.txt
+    ```
+
+2. 使用者自行透過 Portal 頁面記住我功能進行登入，並複製 Portal Cookie 內容
+3. 使用者自行進入到人事系統目標簽到頁面，並複製網址上的頁面 ID (ParttimeUsuallyId)
+4. 在 main.py 檔案內，將上述複製的內容設置於 SIGN_ARGS 中
+
+    ```python
+    # 人事系統簽到退相關參數 (PORTAL_TOKEN, PARTTIME_USUALLY_ID)
+    SIGN_ARGS = (
+        "20240221101901W7T....", 123456)
+    ```
+
+5. 在 main.py 檔案內，設定要簽到與簽退的排程時間，排程採用cron的格式進行設定，可使用[crontab.guru](https://crontab.guru/)小工具進行輔助
+
+    ```python
+    # 新增簽到退排程工作
+    scheduler.add_job(func=do_sign_flow, args=SIGN_ARGS, trigger="cron", day="設定簽到每月日期",
+                      hour="設定簽到每天第幾小時", minute="設定簽到每天第幾分鐘", replace_existing=True, id="sign_in_task")
+    scheduler.add_job(func=do_sign_flow, args=SIGN_ARGS, trigger="cron", day="設定簽退每月日期",
+                      hour="設定簽退每天第幾小時", minute="設定簽退每天第幾分鐘", replace_existing=True, id="sign_out_task")
+    ```
+
+6. 在**專案根目錄**執行 main.py 可進行排程自動簽到
+
+    ```python
+    python main.py
+    ```
+
+7. 執行程式後，可從程式訊息輸出窗口與 logs 目錄底下查看執行日誌
+
+    ![Logs Screenshot](images/logs-screenshot.png)
 
 ## 致謝
 
