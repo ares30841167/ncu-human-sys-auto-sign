@@ -1,11 +1,17 @@
 import os
 import re
+import logging
 import requests
 from lxml import etree
 from datetime import datetime
 from dotenv import load_dotenv
 from .constants import NCU_PORTAL_URL, HUMAN_SYS_URL, MENU_SELECT, \
     LOGIN_PAGE_XPATH, SIGNIN_PAGE_XPATH, BROWSER_USER_AGENT, PORTAL_COOKIE_DOMAIN
+
+
+def init_logger():
+    FORMAT = '%(asctime)s %(filename)s %(levelname)s: %(message)s'
+    logging.basicConfig(level=logging.DEBUG, format=FORMAT)
 
 
 def init_env() -> None:
@@ -159,17 +165,13 @@ def do_sign_act(browser: requests.Session, payload: dict) -> None:
     # 對簽到 API 用 POST 帶簽到請求進行簽到
     res = browser.post(HUMAN_SYS_URL.SIGNIN_BACKEND, data=payload)
 
-    # 印出結果提示
+    # 紀錄結果
     try:
-        # 取得現在時間戳
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        print("[{}]".format(timestamp), end=" ")
-
         # 判斷簽到 API 是否回傳簽到成功之提示並印出本地結果提示
         if (res.json()["isOK"] == "Y"):
-            print("簽到成功" if payload["idNo"] == "" else "簽退成功")
+            logging.info("簽到成功" if payload["idNo"] == "" else "簽退成功")
         else:
-            print("簽到退失敗，後端回應錯誤: {}".format(res.json()))
+            logging.info("簽到退失敗，後端回應錯誤: {}".format(res.json()))
     except:
         raise Exception("簽到退失敗(無isOK欄位)，後端回應錯誤: {}".format(res.json()))
 
@@ -194,6 +196,9 @@ def do_sign_flow(portal_token: str, parttime_usually_id: int) -> None:
 
 
 if __name__ == "__main__":
+    # 初始化 Logger
+    init_logger()
+
     # 初始化環境變數
     init_env()
 
