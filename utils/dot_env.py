@@ -26,9 +26,9 @@ def init_env() -> None:
     if ("SIGN_IN_MINUTES" not in os.environ):
         raise Exception("未設定環境變數 SIGN_IN_MINUTES")
 
-    # 檢查 SING_OUT_DAY 是否存在 .env 內
-    if ("SING_OUT_DAY" not in os.environ):
-        raise Exception("未設定環境變數 SING_OUT_DAY")
+    # 檢查 SIGN_OUT_DAY 是否存在 .env 內
+    if ("SIGN_OUT_DAY" not in os.environ):
+        raise Exception("未設定環境變數 SIGN_OUT_DAY")
 
     # 檢查 SIGN_OUT_HOUR 是否存在 .env 內
     if ("SIGN_OUT_HOUR" not in os.environ):
@@ -64,9 +64,9 @@ def init_env() -> None:
     if (os.environ.get("SIGN_IN_MINUTES") == ""):
         raise Exception("SIGN_IN_MINUTES不得為空")
 
-    # 檢查 SING_OUT_DAY 是否為空
-    if (os.environ.get("SING_OUT_DAY") == ""):
-        raise Exception("SING_OUT_DAY不得為空")
+    # 檢查 SIGN_OUT_DAY 是否為空
+    if (os.environ.get("SIGN_OUT_DAY") == ""):
+        raise Exception("SIGN_OUT_DAY不得為空")
 
     # 檢查 SIGN_OUT_HOUR 是否為空
     if (os.environ.get("SIGN_OUT_HOUR") == ""):
