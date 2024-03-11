@@ -16,7 +16,7 @@ if __name__ == "__main__":
 
     # 人事系統簽到退相關參數 (PORTAL_TOKEN, PARTTIME_USUALLY_ID)
     SIGN_ARGS = (
-        os.environ.get("PORTAL_TOKEN"), os.environ.get("PARTTIME_USUALLY_ID"))
+        os.environ.get("PORTAL_TOKEN"), int(os.environ.get("PARTTIME_USUALLY_ID")))
 
     # 背景執行排程器
     scheduler = BackgroundScheduler()
