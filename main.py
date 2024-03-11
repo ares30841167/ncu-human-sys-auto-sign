@@ -4,6 +4,8 @@ import logging
 from utils.dot_env import init_env
 from utils.logger import init_logger
 from ncu_hsys.sign_bot import do_sign_flow
+from listener.apscheduler import exception_event_handler
+from apscheduler.events import EVENT_JOB_ERROR
 from apscheduler.schedulers.background import BackgroundScheduler
 
 
@@ -28,6 +30,9 @@ if __name__ == "__main__":
     scheduler.add_job(func=do_sign_flow, args=SIGN_ARGS, trigger="cron", day=os.environ.get("SIGN_OUT_DAY"),
                       hour=os.environ.get("SIGN_OUT_HOUR"), minute=os.environ.get("SIGN_OUT_MINUTES"),
                       replace_existing=True, id="sign_out_task")
+
+    # 註冊任務例外狀況事件監聽器
+    scheduler.add_listener(exception_event_handler, EVENT_JOB_ERROR)
 
     # 開始簽到退排程作業並印出排程狀態訊息供確認
     scheduler.start()
