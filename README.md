@@ -94,6 +94,28 @@
 
     ![Logs Screenshot](images/logs-screenshot.png)
 
+### Docker
+
+若要使用 Docker 執行排程自動簽到，則使用步驟如下，
+
+1. 建構 Docker Image
+
+    ```bash
+    docker build . -t <Tag名稱>
+    ```
+
+2. 啟動容器執行自動簽到作業，可以參考下方指令啟動
+
+    ```bash
+    docker run --rm --env-file .env <Tag名稱>
+    ```
+
+3. (Optional) 可將 Logs 目錄進行映射至卷(Volume)上，以保存日誌檔案。若要映射請使用此步驟指令啟動容器，跳過步驟二。
+
+    ```bash
+    docker run --rm --env-file .env -v ncu-hsys-auto-sign-logs:/app/logs <Tag名稱>
+    ```
+
 ## 致謝
 
 - [Notes icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/notes)
