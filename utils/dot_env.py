@@ -6,6 +6,10 @@ def init_env() -> None:
     # 讀取 .env 檔案
     load_dotenv()
 
+    # 檢查 DISCORD_WEBHOOK_URL 是否存在 .env 內
+    if ("DISCORD_WEBHOOK_URL" not in os.environ):
+        raise Exception("未設定環境變數 DISCORD_WEBHOOK_URL")
+
     # 檢查 PORTAL_TOKEN 是否存在 .env 內
     if ("PORTAL_TOKEN" not in os.environ):
         raise Exception("未設定環境變數 PORTAL_TOEKN")
@@ -37,6 +41,10 @@ def init_env() -> None:
     # 檢查 SIGN_OUT_MINUTES 是否存在 .env 內
     if ("SIGN_OUT_MINUTES" not in os.environ):
         raise Exception("未設定環境變數 SIGN_OUT_MINUTES")
+
+    # 檢查 DISCORD_WEBHOOK_URL 是否為空
+    if (os.environ.get("DISCORD_WEBHOOK_URL") == ""):
+        raise Exception("DISCORD_WEBHOOK_URL不得為空")
 
     # 檢查 PORTAL_TOKEN 是否為空
     if (os.environ.get("PORTAL_TOKEN") == ""):
