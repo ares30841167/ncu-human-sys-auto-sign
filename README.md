@@ -28,7 +28,7 @@
 
 30天有效登入狀態 Cookie 須由使用者自行先到 Portal 頁面使用記住我功能進行登入操作後，自行複製登入後的 Portal Cookie 狀態。
 
-目前簽到結果推播通知以及其他部分尚未完成，執行簽到流程測試，使用步驟如下，
+目前簽到結果推播通知以及其他部分尚未完成，若想要執行簽到流程測試，使用步驟如下，
 
 1. 安裝專案所需的 python 相依套件
 
@@ -61,31 +61,26 @@
 
 2. 使用者自行透過 Portal 頁面記住我功能進行登入，並複製 Portal Cookie 內容
 3. 使用者自行進入到人事系統目標簽到頁面，並複製網址上的頁面 ID (ParttimeUsuallyId)
-4. 在 main.py 檔案內，將上述複製的內容設置於 SIGN_ARGS 中
+4. 在**專案根目錄**資料夾下創建 .env 檔案，可參考 .env.example 進行設定，將上述複製的內容設置於 .env 內，並設定簽到與簽退的排程時間，可使用[crontab.guru](https://crontab.guru/)小工具進行輔助
 
-    ```python
-    # 人事系統簽到退相關參數 (PORTAL_TOKEN, PARTTIME_USUALLY_ID)
-    SIGN_ARGS = (
-        "20240221101901W7T....", 123456)
+    ```text
+    PORTAL_TOKEN="{Portal Cookie}"
+    PARTTIME_USUALLY_ID={ParttimeUsuallyId}
+    SIGN_IN_DAY="{Sign-in day at each month}"
+    SIGN_IN_HOUR="{Sign-in hour each day}"
+    SIGN_IN_MINUTES="{Sign-in minutes at each hour}"
+    SING_OUT_DAY="{Sign-out day at each month}"
+    SIGN_OUT_HOUR="{Sign-out hour each day}"
+    SIGN_OUT_MINUTES="{Sign-out minutes at each hour}"
     ```
 
-5. 在 main.py 檔案內，設定要簽到與簽退的排程時間，排程採用cron的格式進行設定，可使用[crontab.guru](https://crontab.guru/)小工具進行輔助
-
-    ```python
-    # 新增簽到退排程工作
-    scheduler.add_job(func=do_sign_flow, args=SIGN_ARGS, trigger="cron", day="設定簽到每月日期",
-                      hour="設定簽到每天第幾小時", minute="設定簽到每天第幾分鐘", replace_existing=True, id="sign_in_task")
-    scheduler.add_job(func=do_sign_flow, args=SIGN_ARGS, trigger="cron", day="設定簽退每月日期",
-                      hour="設定簽退每天第幾小時", minute="設定簽退每天第幾分鐘", replace_existing=True, id="sign_out_task")
-    ```
-
-6. 在**專案根目錄**執行 main.py 可進行排程自動簽到
+5. 在**專案根目錄**執行 main.py 可進行排程自動簽到
 
     ```python
     python main.py
     ```
 
-7. 執行程式後，可從程式訊息輸出窗口與 logs 目錄底下查看執行日誌
+6. 執行程式後，可從程式訊息輸出窗口與 logs 目錄底下查看執行日誌
 
     ![Logs Screenshot](images/logs-screenshot.png)
 

@@ -46,6 +46,10 @@ def init_logger() -> None:
     # 創建 Standard Output Stream Handler
     stream_handler = logging.StreamHandler(sys.stdout)
 
+    # 設定 Standard Output Stream Handler Logging 的格式以及等級
+    stream_handler.setFormatter(formatter)
+    stream_handler.setLevel(logging.DEBUG)
+
     # 取得 Root Logger 並設定 Logging 等級
     root = logging.getLogger()
     root.setLevel(logging.DEBUG)
