@@ -16,11 +16,14 @@ class Discord():
             # 檢查 DISCORD_WEBHOOK_URL 是否為空
             if (os.environ.get("DISCORD_WEBHOOK_URL") == ""):
                 raise Exception("DISCORD_WEBHOOK_URL不得為空")
-            
+
             # 設定 Webhook URL
             self.webhook_url = os.environ.get("DISCORD_WEBHOOK_URL")
 
     def notify(self, msg: str) -> None:
-        requests.post(self.webhook_url, json={"content": msg})
-        logging.debug(
-            f"已透過 Webhook URL {self.webhook_url} 請 Discord 送出頻道訊息: {msg}")
+        try:
+            requests.post(self.webhook_url, json={"content": msg})
+            logging.debug(
+                f"已透過 Webhook URL {self.webhook_url} 請 Discord 送出頻道訊息: {msg}")
+        except Exception:
+            logging.exception(f"透過 Discord 送出頻道訊息 {msg} 時發生錯誤")
