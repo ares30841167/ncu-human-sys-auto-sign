@@ -1,6 +1,7 @@
 import os
 import time
 import logging
+import argparse
 from utils.dot_env import init_env
 from utils.logger import init_logger
 from ncu_hsys.sign_bot import do_sign_flow
@@ -8,10 +9,25 @@ from apscheduler.events import EVENT_JOB_EXECUTED, EVENT_JOB_ERROR
 from listener.apscheduler import APSchedulerEventHandler
 from apscheduler.schedulers.background import BackgroundScheduler
 
+# 解析參數
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-v', '--verbose',
+                        action='store_true',
+                        help='啟用 debug 日誌輸出模式',
+                        required=False)
+
+    return parser.parse_args()
+
 
 if __name__ == "__main__":
+    # 解析參數
+    args = parse_args()
+
     # 初始化 Logger
-    init_logger()
+    init_logger(args.verbose)
 
     # 初始化環境變數
     init_env()

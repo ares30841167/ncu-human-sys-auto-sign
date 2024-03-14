@@ -94,6 +94,9 @@
 
     ![Logs Screenshot](images/logs-screenshot.png)
 
+> [!NOTE]
+> 在 `python main.py` 後面加上 -v 或 --verbose 可以啟動詳盡日誌模式，方便取得更詳細的資訊或者是用於除錯。
+
 ### Docker
 
 若要使用 Docker 執行排程自動簽到，則使用步驟如下，

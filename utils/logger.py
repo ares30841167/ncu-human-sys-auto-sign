@@ -29,7 +29,7 @@ class MakeFileHandler(logging.FileHandler):
 
 
 # 初始化 Logger
-def init_logger() -> None:
+def init_logger(verbose: bool) -> None:
     # 指定 Logging 格式
     formatter = logging.Formatter(
         '%(asctime)s %(filename)s %(levelname)s: %(message)s')
@@ -41,18 +41,18 @@ def init_logger() -> None:
 
     # 設定 MakeFileHandler Logging 的格式以及等級
     file_handler.setFormatter(formatter)
-    file_handler.setLevel(logging.DEBUG)
+    file_handler.setLevel(logging.DEBUG if verbose else logging.INFO)
 
     # 創建 Standard Output Stream Handler
     stream_handler = logging.StreamHandler(sys.stdout)
 
     # 設定 Standard Output Stream Handler Logging 的格式以及等級
     stream_handler.setFormatter(formatter)
-    stream_handler.setLevel(logging.DEBUG)
+    stream_handler.setLevel(logging.DEBUG if verbose else logging.INFO)
 
     # 取得 Root Logger 並設定 Logging 等級
     root = logging.getLogger()
-    root.setLevel(logging.DEBUG)
+    root.setLevel(logging.DEBUG if verbose else logging.INFO)
 
     # 將 MakeFileHandler 和 StreamHandler 附加到 Root Logger 上
     root.addHandler(file_handler)
