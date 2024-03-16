@@ -84,7 +84,6 @@
     SIGN_OUT_MINUTES={Sign-out minutes at each hour}
     ```
 
-    > [!NOTE]
     > 環境變數`DISCORD_WEBHOOK_URL`可忽略不設定或留空。若該環境變數未被設定或留空，則 Discord 通知通功能將自動停用。
 
 6. 在**專案根目錄**執行 main.py 可進行排程自動簽到
