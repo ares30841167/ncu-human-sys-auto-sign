@@ -69,11 +69,11 @@
 
 2. 使用者自行透過 Portal 頁面記住我功能進行登入，並複製 Portal Cookie 內容
 3. 使用者自行進入到人事系統目標簽到頁面，並複製網址上的頁面 ID (ParttimeUsuallyId)
-4. 使用者自行至想要接收通知的 Discord 頻道，產生 Webhook 網址 (對頻道按右鍵點選編輯頻道，進到整合頁面新增)。
+4. (Optional) 使用者自行至想要接收通知的 Discord 頻道，產生 Webhook 網址 (對頻道按右鍵點選編輯頻道，進到整合頁面新增)。
 5. 在**專案根目錄**資料夾下創建 .env 檔案，可參考 .env.example 進行設定，將上述複製的內容設置於 .env 內，並設定簽到與簽退的排程時間，可使用[crontab.guru](https://crontab.guru/)小工具進行輔助
 
     ```text
-    DISCORD_WEBHOOK_URL={Discord Webhook URL}
+    DISCORD_WEBHOOK_URL={Discord Webhook URL} (Optional)
     PORTAL_TOKEN={Portal Cookie}
     PARTTIME_USUALLY_ID={ParttimeUsuallyId}
     SIGN_IN_DAY={Sign-in day at each month}
@@ -83,6 +83,9 @@
     SIGN_OUT_HOUR={Sign-out hour each day}
     SIGN_OUT_MINUTES={Sign-out minutes at each hour}
     ```
+
+    > [!NOTE]
+    > 環境變數`DISCORD_WEBHOOK_URL`可忽略不設定或留空。若該環境變數未被設定或留空，則 Discord 通知通功能將自動停用。
 
 6. 在**專案根目錄**執行 main.py 可進行排程自動簽到
 
