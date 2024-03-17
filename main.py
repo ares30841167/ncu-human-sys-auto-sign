@@ -4,14 +4,14 @@ import logging
 import argparse
 from utils.dot_env import init_env
 from utils.logger import init_logger
+from utils.config import validate_config
 from ncu_hsys.sign_bot import do_sign_flow
 from apscheduler.events import EVENT_JOB_EXECUTED, EVENT_JOB_ERROR
 from listener.apscheduler import APSchedulerEventHandler
 from apscheduler.schedulers.background import BackgroundScheduler
 
+
 # 解析參數
-
-
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument('-v', '--verbose',
@@ -31,6 +31,9 @@ if __name__ == "__main__":
 
     # 初始化環境變數
     init_env()
+
+    # 檢查設定正確性
+    validate_config()
 
     # 人事系統簽到退相關參數 (PORTAL_TOKEN, PARTTIME_USUALLY_ID)
     SIGN_ARGS = (
