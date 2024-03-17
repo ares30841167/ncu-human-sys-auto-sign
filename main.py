@@ -43,10 +43,10 @@ if __name__ == "__main__":
     scheduler = BackgroundScheduler()
 
     # 新增簽到退排程工作
-    scheduler.add_job(func=do_sign_flow, args=SIGN_ARGS, trigger="cron", day=os.environ.get("SIGN_IN_DAY"),
+    scheduler.add_job(func=do_sign_flow, args=SIGN_ARGS, trigger="cron", day=os.environ.get("SIGNING_DAY"),
                       hour=os.environ.get("SIGN_IN_HOUR"), minute=os.environ.get("SIGN_IN_MINUTES"),
                       replace_existing=True, id="sign_in_task")
-    scheduler.add_job(func=do_sign_flow, args=SIGN_ARGS, trigger="cron", day=os.environ.get("SIGN_OUT_DAY"),
+    scheduler.add_job(func=do_sign_flow, args=SIGN_ARGS, trigger="cron", day=os.environ.get("SIGNING_DAY"),
                       hour=os.environ.get("SIGN_OUT_HOUR"), minute=os.environ.get("SIGN_OUT_MINUTES"),
                       replace_existing=True, id="sign_out_task")
 

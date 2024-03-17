@@ -76,15 +76,14 @@
     DISCORD_WEBHOOK_URL={Discord Webhook URL} (Optional)
     PORTAL_TOKEN={Portal Cookie}
     PARTTIME_USUALLY_ID={ParttimeUsuallyId}
-    SIGN_IN_DAY={Sign-in day at each month}
+    SIGNING_DAY={Signing days at each month}
     SIGN_IN_HOUR={Sign-in hour each day}
     SIGN_IN_MINUTES={Sign-in minutes at each hour}
-    SING_OUT_DAY={Sign-out day at each month}
     SIGN_OUT_HOUR={Sign-out hour each day}
     SIGN_OUT_MINUTES={Sign-out minutes at each hour}
     ```
 
-    > 環境變數`DISCORD_WEBHOOK_URL`可忽略不設定或留空。若該環境變數未被設定或留空，則 Discord 通知通功能將自動停用。
+    > 環境變數 `DISCORD_WEBHOOK_URL` 可忽略不設定或留空。若該環境變數未被設定或留空，則 Discord 通知通功能將自動停用。
 
 6. 在**專案根目錄**執行 main.py 可進行排程自動簽到
 
