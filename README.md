@@ -102,6 +102,28 @@
 
 若要使用 Docker 執行排程自動簽到，則使用步驟如下，
 
+#### 使用此專案自動建構的公開映像
+
+此專案在 Release 時會自動建構最新版本的映像至此 [Docker Hub Repository](https://hub.docker.com/r/ares30841167/ncu-human-sys-auto-sign)
+
+1. 啟動容器執行自動簽到作業，可以參考下方指令啟動
+
+    ```bash
+    docker run -d --rm --env-file .env --name <自訂名稱> ares30841167/ncu-human-sys-auto-sign:v*.*.*
+    ```
+
+    ```bash
+    docker run -d --restart always --env-file .env --name <自訂名稱> ares30841167/ncu-human-sys-auto-sign:v*.*.*
+    ```
+
+2. (Optional) 可將 Logs 目錄進行映射至卷(Volume)上，以保存日誌檔案。若要映射請使用此步驟指令啟動容器，跳過步驟一。
+
+    ```bash
+    docker run -d --rm --env-file .env -v ncu-hsys-auto-sign-logs:/app/logs --name <自訂名稱> ares30841167/ncu-human-sys-auto-sign:v*.*.*
+    ```
+
+#### 手動建構映像並啟動
+
 1. 建構 Docker Image
 
     ```bash
