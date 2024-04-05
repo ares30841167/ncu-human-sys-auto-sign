@@ -6,9 +6,9 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 
 class APSchedulerEventHandler:
-    def __init__(self, scheduler: BackgroundScheduler):
+    def __init__(self, scheduler: BackgroundScheduler, notifier: Notifier):
         self.retry_cnt = 5
-        self.notifier = Notifier()
+        self.notifier = notifier
         self.scheduler = scheduler
 
     # 處理排程例外狀況事件
@@ -43,6 +43,9 @@ class APSchedulerEventHandler:
             self.retry_cnt -= 1
 
     # 處理排程執行成功事件
-    def success_event_handler(self, _: JobExecutionEvent) -> None:
+    def success_event_handler(self, event: JobExecutionEvent) -> None:
         # 成功時重設重試次數
         self.retry_cnt = 5
+
+        # 傳送排程任務結果至各通知頻道
+        self.notifier.notify(event.retval)

@@ -165,12 +165,9 @@ def gen_signin_payload(browser: requests.Session, parttime_usually_id: int) -> d
     return payload
 
 
-def do_sign_act(browser: requests.Session, payload: dict, notify: bool = False) -> None:
+def do_sign_act(browser: requests.Session, payload: dict) -> str:
     # 對簽到 API 用 POST 帶簽到請求進行簽到
     res = browser.post(HUMAN_SYS_URL.SIGNIN_BACKEND, data=payload)
-
-    # 若啟用通知功能，則初始化通知通道
-    notifier = Notifier() if notify else None
 
     # 紀錄結果
     try:
@@ -178,18 +175,16 @@ def do_sign_act(browser: requests.Session, payload: dict, notify: bool = False) 
         if (res.json()["isOK"] == "Y"):
             msg = "簽到成功" if payload["idNo"] == "" else "簽退成功"
             logging.info(msg)
-            if (notify):
-                notifier.notify(msg)
+            return msg
         else:
             msg = "簽到退失敗，後端回應錯誤: {}".format(res.json())
             logging.info(msg)
-            if (notify):
-                notifier.notify(msg)
+            return msg
     except:
         raise Exception("簽到退失敗(無isOK欄位)，後端回應錯誤: {}".format(res.json()))
 
 
-def do_sign_flow(portal_token: str, parttime_usually_id: int, notify: bool = True) -> None:
+def do_sign_flow(portal_token: str, parttime_usually_id: int) -> str:
     # 檢查傳入的變數型別
     check_type(portal_token, parttime_usually_id)
 
@@ -203,9 +198,13 @@ def do_sign_flow(portal_token: str, parttime_usually_id: int, notify: bool = Tru
     human_sys_redirect_url = fetch_human_sys_redirect_url(browser)
     login_human_sys(browser, human_sys_redirect_url)
 
-    # 產生簽到請求並進行簽到
+    # 產生簽到請求
     signin_payload = gen_signin_payload(browser, parttime_usually_id)
-    do_sign_act(browser, signin_payload, notify)
+
+    # 進行簽到並取得簽到結果訊息
+    msg = do_sign_act(browser, signin_payload)
+
+    return msg
 
 
 if __name__ == "__main__":
@@ -221,4 +220,4 @@ if __name__ == "__main__":
     parttime_usually_id = int(os.environ.get("PARTTIME_USUALLY_ID"))
 
     # 執行簽到退流程
-    do_sign_flow(portal_token, parttime_usually_id, False)
+    do_sign_flow(portal_token, parttime_usually_id)
