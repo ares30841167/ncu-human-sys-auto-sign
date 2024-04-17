@@ -122,6 +122,10 @@
     docker run -d --rm --env-file .env -v ncu-hsys-auto-sign-logs:/app/logs --name <自訂名稱> ares30841167/ncu-human-sys-auto-sign:v*.*.*
     ```
 
+    ```bash
+    docker run -d --restart always --env-file .env -v ncu-hsys-auto-sign-logs:/app/logs --name <自訂名稱> ares30841167/ncu-human-sys-auto-sign:v*.*.*
+    ```
+
 #### 手動建構映像並啟動
 
 1. 建構 Docker Image
@@ -144,6 +148,10 @@
 
     ```bash
     docker run -d --rm --env-file .env -v ncu-hsys-auto-sign-logs:/app/logs --name <自訂名稱> <Tag名稱>
+    ```
+
+    ```bash
+    docker run -d --restart always --env-file .env -v ncu-hsys-auto-sign-logs:/app/logs --name <自訂名稱> <Tag名稱>
     ```
 
 ## 致謝
