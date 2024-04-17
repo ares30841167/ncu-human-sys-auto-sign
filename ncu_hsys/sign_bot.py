@@ -71,10 +71,14 @@ def login_ncu_portal(browser: requests.Session) -> None:
 
     # 在頁面中尋找對應的表單輸入內容
     # 若正確使用有效的 PORTAL_TOKEN 會在頁面上自動帶入所有輸入內容
-    csrf = html.xpath(LOGIN_PAGE_XPATH.CSRF)[0]
-    login_name = html.xpath(LOGIN_PAGE_XPATH.LOGIN_NAME)[0]
-    username = html.xpath(LOGIN_PAGE_XPATH.USERNAME)[0]
-    remember_as = html.xpath(LOGIN_PAGE_XPATH.REMEMBER_AS)[0]
+    try:
+        csrf = html.xpath(LOGIN_PAGE_XPATH.CSRF)[0]
+        login_name = html.xpath(LOGIN_PAGE_XPATH.LOGIN_NAME)[0]
+        username = html.xpath(LOGIN_PAGE_XPATH.USERNAME)[0]
+        remember_as = html.xpath(LOGIN_PAGE_XPATH.REMEMBER_AS)[0]
+    except IndexError:
+        raise Exception(
+            "未正常登入NCU Portal(無法從登入頁面取得正確資訊，請檢查PORTAL_TOKEN的有效性)")
 
     # 製作登入請求
     payload = {
