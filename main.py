@@ -2,6 +2,7 @@ import os
 import time
 import logging
 import argparse
+from notification.notifier import Notifier
 from utils.dot_env import init_env
 from utils.logger import init_logger
 from utils.config import validate_config
@@ -39,6 +40,9 @@ if __name__ == "__main__":
     SIGN_ARGS = (
         os.environ.get("PORTAL_TOKEN"), int(os.environ.get("PARTTIME_USUALLY_ID")))
 
+    # 初始化所有通知通道
+    notifier = Notifier()
+
     # 背景執行排程器
     scheduler = BackgroundScheduler()
 
@@ -51,7 +55,7 @@ if __name__ == "__main__":
                       replace_existing=True, id="sign_out_task")
 
     # 創建任務事件監聽器
-    event_handler = APSchedulerEventHandler(scheduler)
+    event_handler = APSchedulerEventHandler(scheduler, notifier)
 
     # 註冊任務事件，讓事件呼叫任務事件監聽器
     scheduler.add_listener(
