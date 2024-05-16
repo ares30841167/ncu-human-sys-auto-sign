@@ -4,9 +4,10 @@ import logging
 import requests
 from lxml import etree
 from dotenv import load_dotenv
-from notification.notifier import Notifier
+
+from ncu_hsys.utils.browser import init_browser
 from .constants import NCU_PORTAL_URL, HUMAN_SYS_URL, MENU_SELECT, \
-    LOGIN_PAGE_XPATH, SIGNIN_PAGE_XPATH, BROWSER_USER_AGENT, PORTAL_COOKIE_DOMAIN
+    LOGIN_PAGE_XPATH, SIGNIN_PAGE_XPATH
 
 
 def init_logger():
@@ -49,17 +50,6 @@ def check_type(portal_token: str, parttime_usually_id: int) -> None:
     # 檢查 parttime_usually_id 是否為 int
     if (not isinstance(parttime_usually_id, int)):
         raise TypeError("parttime_usually_id 並非整數")
-
-
-def init_browser(portal_toekn: str) -> requests.Session:
-    # 初始化 Session
-    browser = requests.Session()
-    # 將 PORTAL_TOKEN 設定為 cookie: portal
-    browser.cookies.set("portal", portal_toekn, domain=PORTAL_COOKIE_DOMAIN)
-    # 設定模擬瀏覽器的 User-Agent Header
-    browser.headers.update({"User-Agent": BROWSER_USER_AGENT})
-
-    return browser
 
 
 def login_ncu_portal(browser: requests.Session) -> None:
@@ -140,6 +130,8 @@ def gen_signin_payload(browser: requests.Session, parttime_usually_id: int) -> d
 
     # 解析頁面
     html = etree.HTML(res.text)
+
+    print(res.text)
 
     # 從頁面提取目前簽到的紀錄 ID
     # 若為簽到狀態為空值，若為簽退狀態則為上次簽到的紀錄 ID

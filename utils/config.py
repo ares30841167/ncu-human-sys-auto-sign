@@ -1,8 +1,12 @@
 import os
 from utils.cron import validate_cron_expression, validate_cron_jobs_scheduling_config
+from utils.token_verifier import verify_ncu_portal_token
 
 
 def validate_config():
+    # 檢查 PORTAL_TOKEN 登入狀態的有效性
+    verify_ncu_portal_token()
+
     # 從環境變數取得排程時間相關設定變數
     signing_day = os.environ.get("SIGNING_DAY")
     sign_in_hour = os.environ.get("SIGN_IN_HOUR")
