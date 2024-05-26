@@ -131,8 +131,6 @@ def gen_signin_payload(browser: requests.Session, parttime_usually_id: int) -> d
     # 解析頁面
     html = etree.HTML(res.text)
 
-    print(res.text)
-
     # 從頁面提取目前簽到的紀錄 ID
     # 若為簽到狀態為空值，若為簽退狀態則為上次簽到的紀錄 ID
     id_no = html.xpath(SIGNIN_PAGE_XPATH.ID_NO)[0]
